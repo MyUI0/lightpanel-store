@@ -60,7 +60,7 @@
       "cmd": "./baihu-linux-{{arch}} server",
       "setup_cmd": "curl https://mise.run | sh",
       "author": "engigu",
-      "version": "1.0.39",
+      "version": "1.0.41",
       "auto_extract": true,
       "make_exec": true,
       "port": 8052
