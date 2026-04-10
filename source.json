@@ -127,7 +127,7 @@
       "version": "latest",
       "auto_extract": true,
       "make_exec": true,
-      "port": 8090,
+      "port": 8090
     },
     {
       "name": "Caddy(有问题,还未适配)",
