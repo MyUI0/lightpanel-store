@@ -31,7 +31,7 @@ jobs:
           fi
           echo "✅ 开始更新..."
 
-      - name: 智能更新（链接标记区分，安全无损坏）
+      - name: 自动更新（链接占位符识别，安全无损坏）
         run: |
           source_file="source.json"
           output_file="yuan/source.json"
@@ -44,32 +44,31 @@ jobs:
             url=$(jq -r ".apps[$i].url" "$output_file")
             current_ver=$(jq -r ".apps[$i].version" "$output_file")
             
-            # 仅处理GitHub链接
+            # 仅处理GitHub仓库
             if echo "$url" | grep -qE 'github.com/[^/]+/[^/]+/releases'; then
               repo=$(echo "$url" | grep -oE 'github.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+' | head -1 | sed 's/github.com\///')
+              # 获取最新版本
               new_ver=$(curl -s --connect-timeout 10 "https://api.github.com/repos/${repo}/releases/latest" | jq -r '.tag_name // empty' | sed 's/^v//i')
               
               if [ -n "$new_ver" ] && [ "$new_ver" != "$current_ver" ]; then
                 echo "=============================================="
-                echo "✅ $name | 版本：$current_ver → $new_ver"
+                echo "✅ $name | $current_ver → $new_ver"
 
-                # ==================== 核心逻辑 ====================
-                # 检测链接是否包含 {{auto}} 标记
-                if echo "$url" | grep -q "{{auto}}"; then
-                  echo "🔧 动态链接：更新版本 + 替换latest + 清理标记"
-                  # 动态链接：更新版本 → 替换latest → 删除{{auto}}标记
+                # 判断链接是否包含 {{version}} 占位符
+                if echo "$url" | grep -q "{{version}}"; then
+                  echo "🔧 动态链接：替换版本+链接"
+                  # 替换版本号 + 替换链接占位符
                   jq --arg ver "$new_ver" '
                     .apps['$i'].version = $ver
-                    | .apps['$i'].url = (.apps[$i].url | gsub("/latest/"; "/\($ver)/") | gsub("{{auto}}"; ""))
+                    | .apps['$i'].url = (.apps[$i].url | gsub("{{version}}"; $ver))
                   ' "$output_file" > tmp.json && mv tmp.json "$output_file"
                 else
-                  echo "🔒 普通链接：仅更新版本号，链接保持不变"
-                  # 普通链接：仅更新版本号，链接不动
+                  echo "🔒 普通链接：仅更新版本"
+                  # 仅更新版本号，链接不变
                   jq --arg ver "$new_ver" '
                     .apps['$i'].version = $ver
                   ' "$output_file" > tmp.json && mv tmp.json "$output_file"
                 fi
-                # ==================================================
               fi
             fi
           done
@@ -80,9 +79,9 @@ jobs:
           git config --local user.name "GitHub Action"
           git add yuan/
           if git diff --staged --quiet; then
-            echo "📌 无更新，无需提交"
+            echo "📌 无更新"
           else
-            git commit -m "chore: 自动更新商店源 $(date '+%Y-%m-%d %H:%M')"
+            git commit -m "chore: 更新商店源 $(date '+%Y-%m-%d %H:%M')"
             git push
             echo "🎉 更新完成"
           fi
