@@ -118,9 +118,21 @@
       "setup_cmd": "echo 默认端口:16601 默认账号:666 密码:666 请及时修改密码并设置安全入口"
     },
     {
+      "name": "UpSnap",
+      "desc": "轻量级 Wake-on-LAN 网络唤醒工具，支持Web界面管理设备、定时开机、内网穿透、设备状态监控",
+      "icon": "https://github.com/seriousm4x/UpSnap/blob/master/frontend/static/icon_192.png",
+      "url": "https://github.com/seriousm4x/UpSnap/releases/download/{{version}}/UpSnap_{{version}}_linux_{{arch}}.zip",
+      "cmd": "./upsnap serve --http=0.0.0.0:8090",
+      "author": "seriousm4x",
+      "version": "latest",
+      "auto_extract": true,
+      "make_exec": true,
+      "port": 8090,
+    },
+    {
       "name": "Caddy(有问题,还未适配)",
       "desc": "强大的开源Web服务器，自带HTTPS自动证书、反向代理、静态文件服务，开箱即用",
-      "icon": "https://caddyserver.com/images/caddy-logo.svg",
+      "icon": "https://caddyserver.com.cn/resources/images/logo-dark.svg",
       "url": "https://github.com/caddyserver/caddy/releases/download/v{{version}}/caddy_{{version}}_linux_{{arch}}.tar.gz",
       "cmd": "./caddy run --config Caddyfile",
       "author": "caddyserver",
