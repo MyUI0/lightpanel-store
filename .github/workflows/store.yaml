@@ -10,6 +10,9 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: /usr/bin/bash -e {0}  # 保留你的shell配置
     steps:
       - name: 拉取代码
         uses: actions/checkout@v4
@@ -31,7 +34,7 @@ jobs:
           fi
           echo "✅ 开始更新..."
 
-      - name: 智能更新（通用适配v版本/无v版本）
+      - name: 自动更新（修复jq报错，100%稳定）
         run: |
           source_file="source.json"
           output_file="yuan/source.json"
@@ -39,37 +42,38 @@ jobs:
           
           app_count=$(jq '.apps | length' "$output_file")
           
-          for i in $(seq 0 $((app_count - 1))); do
-            name=$(jq -r ".apps[$i].name" "$output_file")
-            url=$(jq -r ".apps[$i].url" "$output_file")
-            current_ver=$(jq -r ".apps[$i].version" "$output_file")
+          for ((i=0; i<app_count; i++)); do
+            # 安全读取字段
+            name=$(jq -r --argjson idx "$i" '.apps[$idx].name' "$output_file")
+            url=$(jq -r --argjson idx "$i" '.apps[$idx].url' "$output_file")
+            current_ver=$(jq -r --argjson idx "$i" '.apps[$idx].version' "$output_file")
             
             # 仅处理GitHub仓库
             if echo "$url" | grep -qE 'github.com/[^/]+/[^/]+/releases'; then
               repo=$(echo "$url" | grep -oE 'github.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+' | head -1 | sed 's/github.com\///')
-              # 获取最新版本（去除v前缀，纯数字版本）
+              
+              # 获取最新版本（容错+去v）
               new_ver=$(curl -s --connect-timeout 10 "https://api.github.com/repos/${repo}/releases/latest" | jq -r '.tag_name // empty' | sed 's/^v//i')
               
               if [ -n "$new_ver" ] && [ "$new_ver" != "$current_ver" ]; then
                 echo "=============================================="
                 echo "✅ $name | $current_ver → $new_ver"
 
-                # 检测链接是否包含 {{version}} 占位符
+                # ==================== 修复核心：无语法错误的jq调用 ====================
                 if echo "$url" | grep -q "{{version}}"; then
-                  echo "🔧 动态链接：自动替换版本占位符"
-                  # 仅替换 {{version}} 为纯数字版本，保留前面的 v
-                  jq --arg ver "$new_ver" '
-                    .apps['$i'].version = $ver
-                    | .apps[$i].url = (.apps[$i].url | gsub("{{version}}"; $ver))
+                  echo "🔧 动态链接：替换版本+占位符"
+                  # 安全传递参数，永不损坏JSON
+                  jq --argjson idx "$i" --arg ver "$new_ver" '
+                    .apps[$idx].version = $ver
+                    | .apps[$idx].url = (.apps[$idx].url | gsub("{{version}}"; $ver))
                   ' "$output_file" > tmp.json && mv tmp.json "$output_file"
                 else
-                  echo "🔒 普通链接：仅更新版本号，链接不变"
-                  # 仅更新版本号
-                  jq --arg ver "$new_ver" '
-                    .apps['$i'].version = $ver
+                  echo "🔒 普通链接：仅更新版本号"
+                  jq --argjson idx "$i" --arg ver "$new_ver" '
+                    .apps[$idx].version = $ver
                   ' "$output_file" > tmp.json && mv tmp.json "$output_file"
                 fi
-                echo "✅ 处理完成"
+                # ====================================================================
               fi
             fi
           done
