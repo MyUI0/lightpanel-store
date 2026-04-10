@@ -105,6 +105,19 @@
       "params_hint": "tunnel run --token 你的Cloudflare隧道Token"
     },
     {
+      "name": "Lucky",
+      "desc": "软硬路由公网神器，支持IPv6/IPv4端口转发、反向代理、DDNS、WOL、Stun内网穿透、计划任务、ACME自动证书、网络存储等",
+      "icon": "https://lucky666.cn/img/logo.svg",
+      "url": "https://github.com/gdy666/lucky/releases/download/v{{version}}/lucky_{{version}}_Linux_{{arch}}.tar.gz",
+      "cmd": "./lucky -cd luckyconf",
+      "author": "gdy666",
+      "version": "latest",
+      "auto_extract": true,
+      "make_exec": true,
+      "port": 16601,
+      "setup_cmd": "echo 默认端口:16601 默认账号:666 密码:666 请及时修改密码并设置安全入口"
+    },
+    {
       "name": "SamWaf",
       "desc": "简单易用的 Linux 系统 WAF 防火墙，支持 IP 黑白名单、CC 防护等",
       "icon": "https://img.icons8.com/color/256/firewall.png",
