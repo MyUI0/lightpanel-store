@@ -31,7 +31,7 @@ jobs:
           fi
           echo "✅ 开始更新..."
 
-      - name: 自动更新（链接占位符识别，安全无损坏）
+      - name: 智能更新（通用适配v版本/无v版本）
         run: |
           source_file="source.json"
           output_file="yuan/source.json"
@@ -47,28 +47,29 @@ jobs:
             # 仅处理GitHub仓库
             if echo "$url" | grep -qE 'github.com/[^/]+/[^/]+/releases'; then
               repo=$(echo "$url" | grep -oE 'github.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+' | head -1 | sed 's/github.com\///')
-              # 获取最新版本
+              # 获取最新版本（去除v前缀，纯数字版本）
               new_ver=$(curl -s --connect-timeout 10 "https://api.github.com/repos/${repo}/releases/latest" | jq -r '.tag_name // empty' | sed 's/^v//i')
               
               if [ -n "$new_ver" ] && [ "$new_ver" != "$current_ver" ]; then
                 echo "=============================================="
                 echo "✅ $name | $current_ver → $new_ver"
 
-                # 判断链接是否包含 {{version}} 占位符
+                # 检测链接是否包含 {{version}} 占位符
                 if echo "$url" | grep -q "{{version}}"; then
-                  echo "🔧 动态链接：替换版本+链接"
-                  # 替换版本号 + 替换链接占位符
+                  echo "🔧 动态链接：自动替换版本占位符"
+                  # 仅替换 {{version}} 为纯数字版本，保留前面的 v
                   jq --arg ver "$new_ver" '
                     .apps['$i'].version = $ver
-                    | .apps['$i'].url = (.apps[$i].url | gsub("{{version}}"; $ver))
+                    | .apps[$i].url = (.apps[$i].url | gsub("{{version}}"; $ver))
                   ' "$output_file" > tmp.json && mv tmp.json "$output_file"
                 else
-                  echo "🔒 普通链接：仅更新版本"
-                  # 仅更新版本号，链接不变
+                  echo "🔒 普通链接：仅更新版本号，链接不变"
+                  # 仅更新版本号
                   jq --arg ver "$new_ver" '
                     .apps['$i'].version = $ver
                   ' "$output_file" > tmp.json && mv tmp.json "$output_file"
                 fi
+                echo "✅ 处理完成"
               fi
             fi
           done
@@ -79,9 +80,9 @@ jobs:
           git config --local user.name "GitHub Action"
           git add yuan/
           if git diff --staged --quiet; then
-            echo "📌 无更新"
+            echo "📌 无更新，无需提交"
           else
-            git commit -m "chore: 更新商店源 $(date '+%Y-%m-%d %H:%M')"
+            git commit -m "chore: 自动更新商店源 $(date '+%Y-%m-%d %H:%M')"
             git push
             echo "🎉 更新完成"
           fi
