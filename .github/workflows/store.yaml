@@ -1,8 +1,7 @@
 name: 更新商店源
-
 on:
   schedule:
-    - cron: '0 12 * * *'  # 每天12点
+    - cron: '0 12 * * *'
   workflow_dispatch:
   push:
     paths:
@@ -12,7 +11,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: 拉取代码
         uses: actions/checkout@v4
         with:
           ref: main
@@ -24,20 +23,18 @@ jobs:
       - name: 创建输出目录
         run: mkdir -p yuan
 
-      - name: 检查 source.json
+      - name: 校验源文件
         run: |
           if [ ! -f "source.json" ]; then
-            echo "错误: 找不到 source.json"
+            echo "❌ 错误：找不到 source.json"
             exit 1
           fi
-          echo "开始更新..."
+          echo "✅ 开始更新..."
 
-      - name: 更新商店源
+      - name: 智能更新（链接标记区分，安全无损坏）
         run: |
           source_file="source.json"
           output_file="yuan/source.json"
-          
-          # 复制源文件到输出目录（保留原始文件不变）
           cp "$source_file" "$output_file"
           
           app_count=$(jq '.apps | length' "$output_file")
@@ -47,27 +44,45 @@ jobs:
             url=$(jq -r ".apps[$i].url" "$output_file")
             current_ver=$(jq -r ".apps[$i].version" "$output_file")
             
-            if echo "$url" | grep -qE 'github.com/[^/]+/[^/]+/(releases|download)'; then
+            # 仅处理GitHub链接
+            if echo "$url" | grep -qE 'github.com/[^/]+/[^/]+/releases'; then
               repo=$(echo "$url" | grep -oE 'github.com/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+' | head -1 | sed 's/github.com\///')
-              
-              new_ver=$(curl -s "https://api.github.com/repos/${repo}/releases/latest" | jq -r '.tag_name // empty' | sed 's/^v//')
+              new_ver=$(curl -s --connect-timeout 10 "https://api.github.com/repos/${repo}/releases/latest" | jq -r '.tag_name // empty' | sed 's/^v//i')
               
               if [ -n "$new_ver" ] && [ "$new_ver" != "$current_ver" ]; then
-                echo "[$name] $current_ver → $new_ver"
-                jq ".apps[$i].version = \"$new_ver\"" "$output_file" > "${output_file}.tmp"
-                mv "${output_file}.tmp" "$output_file"
+                echo "=============================================="
+                echo "✅ $name | 版本：$current_ver → $new_ver"
+
+                # ==================== 核心逻辑 ====================
+                # 检测链接是否包含 {{auto}} 标记
+                if echo "$url" | grep -q "{{auto}}"; then
+                  echo "🔧 动态链接：更新版本 + 替换latest + 清理标记"
+                  # 动态链接：更新版本 → 替换latest → 删除{{auto}}标记
+                  jq --arg ver "$new_ver" '
+                    .apps['$i'].version = $ver
+                    | .apps['$i'].url = (.apps[$i].url | gsub("/latest/"; "/\($ver)/") | gsub("{{auto}}"; ""))
+                  ' "$output_file" > tmp.json && mv tmp.json "$output_file"
+                else
+                  echo "🔒 普通链接：仅更新版本号，链接保持不变"
+                  # 普通链接：仅更新版本号，链接不动
+                  jq --arg ver "$new_ver" '
+                    .apps['$i'].version = $ver
+                  ' "$output_file" > tmp.json && mv tmp.json "$output_file"
+                fi
+                # ==================================================
               fi
             fi
           done
 
-      - name: 提交更改
+      - name: 提交更新
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add yuan/
           if git diff --staged --quiet; then
-            echo "没有更新，无需提交"
+            echo "📌 无更新，无需提交"
           else
-            git commit -m "chore: 更新商店源 $(date '+%Y-%m-%d %H:%M')"
+            git commit -m "chore: 自动更新商店源 $(date '+%Y-%m-%d %H:%M')"
             git push
+            echo "🎉 更新完成"
           fi
