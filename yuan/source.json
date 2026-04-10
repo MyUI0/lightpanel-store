@@ -118,6 +118,19 @@
       "setup_cmd": "echo 默认端口:16601 默认账号:666 密码:666 请及时修改密码并设置安全入口"
     },
     {
+      "name": "Caddy(有问题,还未适配)",
+      "desc": "强大的开源Web服务器，自带HTTPS自动证书、反向代理、静态文件服务，开箱即用",
+      "icon": "https://caddyserver.com/images/caddy-logo.svg",
+      "url": "https://github.com/caddyserver/caddy/releases/download/v{{version}}/caddy_{{version}}_linux_{{arch}}.tar.gz",
+      "cmd": "./caddy run --config Caddyfile",
+      "author": "caddyserver",
+      "version": "latest",
+      "auto_extract": true,
+      "make_exec": true,
+      "port": 80,
+      "setup_cmd": "echo Caddy默认端口:80/443 | echo 快速启动: ./caddy file-server --listen :8080 | echo 配置文件:Caddyfile"
+    },
+    {
       "name": "SamWaf",
       "desc": "简单易用的 Linux 系统 WAF 防火墙，支持 IP 黑白名单、CC 防护等",
       "icon": "https://img.icons8.com/color/256/firewall.png",
