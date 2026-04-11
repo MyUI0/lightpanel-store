@@ -72,7 +72,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/filebrowser/filebrowser/releases/latest/download/linux-{{arch}}-filebrowser.tar.gz",
       "cmd": "./filebrowser",
       "author": "filebrowser",
-      "version": "2.63.1",
+      "version": "2.63.2",
       "auto_extract": true,
       "setup_cmd": "./filebrowser config set -p 8082",
       "make_exec": true,
