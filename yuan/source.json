@@ -47,7 +47,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/usememos/memos/releases/latest/download/memos_linux_{{arch}}.tar.gz",
       "cmd": "./memos --port 5230 --data ./memos_data",
       "author": "usememos",
-      "version": "0.26.2",
+      "version": "0.27.1",
       "auto_extract": true,
       "make_exec": true,
       "port": 8081
