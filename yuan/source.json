@@ -35,7 +35,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/c0m4r/kula/releases/latest/download/kula-{{arch}}.tar.gz",
       "cmd": "./kula",
       "author": "c0m4r",
-      "version": "0.14.0",
+      "version": "0.15.0",
       "auto_extract": true,
       "make_exec": true,
       "port": 27960
@@ -85,7 +85,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/gtsteffaniak/filebrowser/releases/latest/download/linux-{{arch}}-filebrowser",
       "cmd": "./linux-{{arch}}-filebrowser",
       "author": "gtsteffaniak",
-      "version": "1.2.4-stable",
+      "version": "1.3.0-stable",
       "setup_cmd": "./linux-{{arch}}-filebrowser config init -p 8082 -a 0.0.0.0",
       "auto_extract": false,
       "make_exec": true,
