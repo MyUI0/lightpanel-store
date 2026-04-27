@@ -47,7 +47,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/usememos/memos/releases/latest/download/memos_linux_{{arch}}.tar.gz",
       "cmd": "./memos --port 5230 --data ./memos_data",
       "author": "usememos",
-      "version": "0.27.1",
+      "version": "0.28.0",
       "auto_extract": true,
       "make_exec": true,
       "port": 8081
@@ -60,7 +60,7 @@
       "cmd": "./baihu-linux-{{arch}} server",
       "setup_cmd": "curl https://mise.run | sh",
       "author": "engigu",
-      "version": "1.0.47",
+      "version": "1.0.48",
       "auto_extract": true,
       "make_exec": true,
       "port": 8052
@@ -121,10 +121,10 @@
       "name": "UpSnap",
       "desc": "轻量级 Wake-on-LAN 网络唤醒工具，支持Web界面管理设备、定时开机、内网穿透、设备状态监控",
       "icon": "https://github.com/seriousm4x/UpSnap/blob/master/frontend/static/icon_192.png",
-      "url": "https://edgeone.gh-proxy.org/https://github.com/seriousm4x/UpSnap/releases/download/5.3.2/UpSnap_5.3.2_linux_{{arch}}.zip",
+      "url": "https://edgeone.gh-proxy.org/https://github.com/seriousm4x/UpSnap/releases/download/5.3.3/UpSnap_5.3.3_linux_{{arch}}.zip",
       "cmd": "./upsnap serve --http=0.0.0.0:8090",
       "author": "seriousm4x",
-      "version": "5.3.2",
+      "version": "5.3.3",
       "auto_extract": true,
       "make_exec": true,
       "port": 8090
