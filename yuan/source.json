@@ -85,7 +85,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/gtsteffaniak/filebrowser/releases/latest/download/linux-{{arch}}-filebrowser",
       "cmd": "./linux-{{arch}}-filebrowser",
       "author": "gtsteffaniak",
-      "version": "1.3.0-stable",
+      "version": "1.3.1-stable",
       "setup_cmd": "./linux-{{arch}}-filebrowser config init -p 8082 -a 0.0.0.0",
       "auto_extract": false,
       "make_exec": true,
