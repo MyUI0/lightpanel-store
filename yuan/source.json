@@ -121,10 +121,10 @@
       "name": "UpSnap",
       "desc": "轻量级 Wake-on-LAN 网络唤醒工具，支持Web界面管理设备、定时开机、内网穿透、设备状态监控",
       "icon": "https://github.com/seriousm4x/UpSnap/blob/master/frontend/static/icon_192.png",
-      "url": "https://edgeone.gh-proxy.org/https://github.com/seriousm4x/UpSnap/releases/download/5.3.3/UpSnap_5.3.3_linux_{{arch}}.zip",
+      "url": "https://edgeone.gh-proxy.org/https://github.com/seriousm4x/UpSnap/releases/download/5.3.4/UpSnap_5.3.4_linux_{{arch}}.zip",
       "cmd": "./upsnap serve --http=0.0.0.0:8090",
       "author": "seriousm4x",
-      "version": "5.3.3",
+      "version": "5.3.4",
       "auto_extract": true,
       "make_exec": true,
       "port": 8090
