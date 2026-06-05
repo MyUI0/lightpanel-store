@@ -35,7 +35,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/c0m4r/kula/releases/latest/download/kula-{{arch}}.tar.gz",
       "cmd": "./kula",
       "author": "c0m4r",
-      "version": "0.17.3",
+      "version": "0.18.0",
       "auto_extract": true,
       "make_exec": true,
       "port": 27960
@@ -47,7 +47,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/usememos/memos/releases/latest/download/memos_linux_{{arch}}.tar.gz",
       "cmd": "./memos --port 5230 --data ./memos_data",
       "author": "usememos",
-      "version": "0.29.0",
+      "version": "0.29.1",
       "auto_extract": true,
       "make_exec": true,
       "port": 8081
@@ -72,7 +72,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/filebrowser/filebrowser/releases/latest/download/linux-{{arch}}-filebrowser.tar.gz",
       "cmd": "./filebrowser",
       "author": "filebrowser",
-      "version": "2.63.11",
+      "version": "2.63.12",
       "auto_extract": true,
       "setup_cmd": "./filebrowser config set -p 8082",
       "make_exec": true,
