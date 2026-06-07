@@ -35,7 +35,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/c0m4r/kula/releases/latest/download/kula-{{arch}}.tar.gz",
       "cmd": "./kula",
       "author": "c0m4r",
-      "version": "0.18.1",
+      "version": "0.18.2",
       "auto_extract": true,
       "make_exec": true,
       "port": 27960
