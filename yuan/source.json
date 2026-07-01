@@ -23,7 +23,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/OpenListTeam/OpenList/releases/latest/download/openlist-linux-{{arch}}-lite.tar.gz",
       "cmd": "./openlist",
       "author": "OpenListTeam",
-      "version": "4.2.2",
+      "version": "4.2.3",
       "auto_extract": true,
       "make_exec": true,
       "port": 5244
