@@ -10,7 +10,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/komari-monitor/komari-agent/releases/latest/download/komari-agent-linux-{{arch}}",
       "cmd": "./komari-agent-linux-{{arch}} {{params}}",
       "author": "Komari",
-      "version": "1.2.13",
+      "version": "1.2.60",
       "auto_extract": false,
       "make_exec": true,
       "ask_params": true,
