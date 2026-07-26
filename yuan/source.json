@@ -60,7 +60,7 @@
       "cmd": "./baihu-linux-{{arch}} server",
       "setup_cmd": "curl https://mise.run | sh",
       "author": "engigu",
-      "version": "1.1.22",
+      "version": "1.1.23",
       "auto_extract": true,
       "make_exec": true,
       "port": 8052
@@ -72,7 +72,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/filebrowser/filebrowser/releases/latest/download/linux-{{arch}}-filebrowser.tar.gz",
       "cmd": "./filebrowser",
       "author": "filebrowser",
-      "version": "2.63.19",
+      "version": "2.63.21",
       "auto_extract": true,
       "setup_cmd": "./filebrowser config set -p 8082",
       "make_exec": true,
