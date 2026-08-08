@@ -23,7 +23,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/OpenListTeam/OpenList/releases/latest/download/openlist-linux-{{arch}}-lite.tar.gz",
       "cmd": "./openlist",
       "author": "OpenListTeam",
-      "version": "4.2.4",
+      "version": "4.2.5",
       "auto_extract": true,
       "make_exec": true,
       "port": 5244
@@ -85,7 +85,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/gtsteffaniak/filebrowser/releases/latest/download/linux-{{arch}}-filebrowser",
       "cmd": "./linux-{{arch}}-filebrowser",
       "author": "gtsteffaniak",
-      "version": "1.5.0-stable",
+      "version": "1.5.1-stable",
       "setup_cmd": "./linux-{{arch}}-filebrowser config init -p 8082 -a 0.0.0.0",
       "auto_extract": false,
       "make_exec": true,
