@@ -60,7 +60,7 @@
       "cmd": "./baihu-linux-{{arch}} server",
       "setup_cmd": "curl https://mise.run | sh",
       "author": "engigu",
-      "version": "1.1.29",
+      "version": "1.1.30",
       "auto_extract": true,
       "make_exec": true,
       "port": 8052
@@ -98,7 +98,7 @@
       "url": "https://edgeone.gh-proxy.org/https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-{{arch}}",
       "cmd": "./cloudflared-linux-{{arch}} {{params}}",
       "author": "Cloudflare",
-      "version": "2026.9.0",
+      "version": "2026.9.1",
       "auto_extract": false,
       "make_exec": true,
       "ask_params": true,
